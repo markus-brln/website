@@ -1,4 +1,4 @@
-helm upgrade --install website ./charts/website \
+helm upgrade --install website ./kubernetes/website \
   --namespace super-cool-namespace \
   --create-namespace \
-  --values ./charts/website/values.yaml
+  --values ./kubernetes/website/values.yaml

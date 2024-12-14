@@ -1,25 +1,27 @@
 # Website bauerlein.dev
 
-metallb IP ranges:  192.168.2.1-192.168.2.10
+This is the setup for my personal website. It is a simple static website hosted on a Kubernetes cluster in my home
+network and is reachable when my PC runs the cluster.
 
-## Infra
+## TransIP
 
-Install Helm: https://helm.sh/docs/intro/install/
+- Buy domain at transip.nl
+- TransIP domain management: https://www.transip.nl/cp/domein-hosting
+  - See how to make an A record https://www.transip.nl/knowledgebase/dns/405-een-a-record-instellen
+  - Create an A record pointing to router IP
+    - Get my public IP:
+      - http://mijnmodem.kpn/index.htm#
+      - `Network Status` tab, then WAN IP
+      - Alternative: https://www.whatismyip.com/ or http://wanip.info/
+  - Check if DNS resolution works: https://dnschecker.org/#A/bauerlein.dev
 
-```bash
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.16.1/cert-manager.crds.yaml
-helm repo add jetstack https://charts.jetstack.io --force-update
-helm install cert-manager --namespace cert-manager --version v1.16.1 jetstack/cert-manager --create-namespace
-```
+## Local pre-requisites
 
-delete:
+- `helm`
+- `microk8s` with `ingress` and `metallb` addons enabled
+  - Set `metallb` load balancer IP ranges:  192.168.2.1-192.168.2.10
 
-```bash
-kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.16.1/cert-manager.crds.yaml
-helm uninstall cert-manager -n cert-manager
-```
-
-## Setup self-hosting
+## Router configuration
 
 See [screenshot](./images/Screenshot%20from%202024-12-14%2016-01-57.png) how to set up the port mapping for NAT
 in the kpn router.
@@ -32,19 +34,36 @@ cert-manager to get a certificate from Let's Encrypt. That means, in the NAT con
     - user: `admin`
     - password: See back of the router
 - Go to `Network` -> `NAT` -> `Port Mapping` -> `Add Rule`
-    - Set IP to the Ingress IP
+    - Set IP to `192.168.2.1`
     - Public and Private port: 443, Protocol: TCP
 
-Get my public IP:
+## Install cert-manager
 
-- http://mijnmodem.kpn/index.htm#
-- `Network Status` tab, then WAN IP
-- Alternative: https://www.whatismyip.com/ or http://wanip.info/
+```bash
+./icertmanager.sh
+```
 
-### TransIP config
+## Install the website
 
-My TransIP domain: https://www.transip.nl/cp/domein-hosting
+```bash
+./iwebsite.sh
+```
 
-- See how to make an A record https://www.transip.nl/knowledgebase/dns/405-een-a-record-instellen
-- Check DNS: https://dnschecker.org/#A/bauerlein.dev
+## Uninstall the website
 
+```bash
+./uwebsite.sh
+```
+
+## Troubleshooting
+
+Rate limiting on `Certificaterequest`s -> Just wait:
+
+```bash
+  Normal   OrderPending        42s                cert-manager-certificaterequests-issuer-acme        Waiting on certificate issuance from 
+order super-cool-namespace/quickstart-example-tls-1-2742097806: ""                                                                         
+  Warning  OrderFailed         41s                cert-manager-certificaterequests-issuer-acme        Failed to wait for order resource "qu
+ickstart-example-tls-1-2742097806" to become ready: order is in "errored" state: Failed to create Order: 429 urn:ietf:params:acme:error:rat
+eLimited: too many certificates (5) already issued for this exact set of domains in the last 168h0m0s, retry after 2024-12-16 02:50:38 UTC:
+ see https://letsencrypt.org/docs/rate-limits/#new-certificates-per-exact-set-of-hostnames
+```
