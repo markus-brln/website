@@ -1,0 +1,21 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: super-cool-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: super-cool-app
+  template:
+    metadata:
+      labels:
+        app: super-cool-app
+    spec:
+      containers:
+      - name: rickroll-container
+        image: modem7/docker-rickroll
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
