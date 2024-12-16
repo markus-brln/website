@@ -1,0 +1,21 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: syncthing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      kubernetes.io/name: syncthing
+  template:
+    metadata:
+      labels:
+        kubernetes.io/name: syncthing
+    spec:
+      containers:
+      - name: syncthing-container
+        image: linuxserver/syncthing:1.28.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 22000

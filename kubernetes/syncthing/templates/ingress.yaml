@@ -1,0 +1,25 @@
+#---
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: syncthing-ingress
+#  annotations:
+#    cert-manager.io/issuer: "letsencrypt-prod"
+##    cert-manager.io/issuer: "letsencrypt-staging"
+#spec:
+#  ingressClassName: nginx
+#  tls:
+#  - hosts:
+#    - bauerlein.dev
+#    secretName: syncthing-tls
+#  rules:
+#  - host: bauerlein.dev
+#    http:
+#      paths:
+#      - path: /
+#        pathType: Prefix
+#        backend:
+#          service:
+#            name: syncthing-service
+#            port:
+#              number: 22000
