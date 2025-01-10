@@ -34,7 +34,7 @@ cert-manager to get a certificate from Let's Encrypt. That means, in the NAT con
     - user: `admin`
     - password: See back of the router
 - Go to `Network` -> `NAT` -> `Port Mapping` -> `Add Rule`
-    - Set IP to `192.168.2.1`
+    - Set IP to `192.168.2.X` - depending on which IP your machine got
     - Public and Private port: 443, Protocol: TCP
 
 ## Install cert-manager

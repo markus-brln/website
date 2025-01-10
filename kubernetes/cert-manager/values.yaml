@@ -1,0 +1,5 @@
+
+# Make sure that CRDs are install with Helm chart
+cert-manager:
+  crds:
+    enabled: true
