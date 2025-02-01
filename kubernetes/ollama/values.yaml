@@ -95,10 +95,10 @@ ollama:
     port: 11434
 
     # -- Service node port when service type is 'NodePort'
-    nodePort: 31434
+    #nodePort: 31434
 
     # -- Load Balancer IP address
-    loadBalancerIP:
+    #loadBalancerIP:
 
     # -- Annotations to add to the service
     annotations: {}
@@ -113,13 +113,13 @@ ollama:
 
     # -- Additional annotations for the Ingress resource.
     annotations:
-      cert-manager.io/issuer: "letsencrypt-staging"
-
+      cert-manager.io/issuer: "letsencrypt-prod"
+      nginx.ingress.kubernetes.io/rewrite-target: "/api/generate"
     # The list of hostnames to be covered with this ingress record.
     hosts:
       - host: bauerlein.dev
         paths:
-          - path: /chat
+          - path: /chat/api/generate
             pathType: Prefix
 
     # --  The tls configuration for hostnames to be covered with this ingress record.
@@ -203,12 +203,12 @@ ollama:
   # Enable persistence using Persistent Volume Claims
   # ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
   persistentVolume:
-    enabled: true
+    enabled: false
     accessModes:
       - ReadWriteOnce
     annotations: {}
     existingClaim: ""
-    size: 15Gi
+    size: 7Gi
     storageClass: "microk8s-hostpath"
 
 
