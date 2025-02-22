@@ -37,7 +37,7 @@ spec:
       containers:
       - name: react-frontend
         image: localhost:32000/frontend:0.1.0
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         command: ["npm", "run", "dev", "--", "--host"]
         ports:
         - containerPort: 5173
