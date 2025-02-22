@@ -1,4 +1,4 @@
-import { Flex, Button, Textarea, Text } from '@mantine/core';
+import { Flex, Button, Textarea, Text, MediaQuery } from '@mantine/core';
 import { useCallback, useState } from 'react';
 
 export default function HomePage() {
@@ -62,20 +62,27 @@ export default function HomePage() {
     <Flex
       mih={50}
       bg="rgba(0, 0, 0, .1)"
-      gap="md"
-      justify="flex-start"
-      align="flex-start"
+      gap="sm"
+      justify="center"
+      align="center"
       direction="column"
-      wrap="wrap"
+      wrap="nowrap"
+      style={{ width: '100%', padding: '1rem' }}
     >
       <Textarea
         placeholder="Enter your prompt here"
         value={prompt}
         onChange={(event) => setPrompt(event.currentTarget.value)}
+        style={{ width: '100%' }}
+        autosize
       />
-      <Button onClick={onClickSendRequest}>Send Request</Button>
-      <Text>{responseText}</Text>
-      <Text>{finalStats}</Text>
+      <Button onClick={onClickSendRequest} style={{ width: '100%' }}>Send Request</Button>
+      <MediaQuery smallerThan="sm" styles={{ fontSize: '0.5rem' }}>
+        <Text style={{ width: '100%', wordBreak: 'break-word' }}>{responseText}</Text>
+      </MediaQuery>
+      <MediaQuery smallerThan="sm" styles={{ fontSize: '0.5rem' }}>
+        <Text style={{ width: '100%', wordBreak: 'break-word' }}>{finalStats}</Text>
+      </MediaQuery>
     </Flex>
   );
 }
