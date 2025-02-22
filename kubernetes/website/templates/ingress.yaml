@@ -17,7 +17,7 @@ spec:
   - host: bauerlein.dev
     http:
       paths:
-      - path: /rickroll  # doesn't work :(
+      - path: /video
         pathType: Prefix
         backend:
           service:
