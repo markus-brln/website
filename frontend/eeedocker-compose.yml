@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: "traefik:v2.9"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "5173:5173"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  whoami:
+    image: "traefik/whoami"
+    container_name: "simple-service"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    volumes:
+      - ./frontend:/usr/src/app
+    ports:
+      - "5173:5173"
+      - "3000:3000"
+    command: npm run dev -- --host
+    depends_on:
+      - app
+    networks:
+      - mynetwork
+
+  app:
+    build: ./app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/usr/src/app
+    command: cargo watch -x run  # run the app with reload on code change (cargo-watch installed in app/Dockerfile)
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:

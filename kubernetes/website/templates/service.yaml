@@ -10,3 +10,15 @@ spec:
     protocol: TCP
   selector:
     kubernetes.io/app: super-cool-app
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-frontend-service
+spec:
+  ports:
+  - port: 5173
+    targetPort: 5173
+    protocol: TCP
+  selector:
+    kubernetes.io/app: react-frontend
