@@ -84,4 +84,18 @@ flux bootstrap github \
   --branch=main \
   --path=flux-manifests \
   --personal
-  ```
+```
+
+## Harbor setup
+
+- I want to make my cluster self-sufficient such that I don't need to touch the laptop that I'm deploying on but can
+  push new code from anywhere
+- Plan:
+  - FluxCD to get config and docker image changes
+  - Harbor publicly available (with authentication) via ingress, so I can push images
+- Make harbor helm chart, using harbor's chart: https://artifacthub.io/packages/helm/harbor/harbor/1.3.2?modal=values
+  - `helm repo add harbor https://helm.goharbor.io`
+  - Copy and adapt values
+  - `helm dependency build kubernetes/harbor`
+  - `helm template harbor kubernetes/harbor`
+  - `./iharbor` / `./uharbor` scripts
