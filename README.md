@@ -91,15 +91,6 @@ flux bootstrap github \
   --personal
 ```
 
-## Harbor setup
-
-- Make harbor helm chart, using harbor's chart: https://artifacthub.io/packages/helm/harbor/harbor/1.3.2?modal=values
-  - `helm repo add harbor https://helm.goharbor.io`
-  - Copy and adapt values
-  - `helm dependency build kubernetes/harbor`
-  - `helm template harbor kubernetes/harbor`
-  - `./iharbor` / `./uharbor` scripts
-
 ## GitHub registry setup
 
 - Following: https://medium.com/devopsturkiye/pushing-docker-images-to-githubs-registry-manual-and-automated-methods-19cce3544eb1
