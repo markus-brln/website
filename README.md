@@ -97,5 +97,12 @@ flux bootstrap github \
 
 ```bash
 docker login --username markus-brln --password-stdin  ghcr.io
-
+docker build -t ghcr.io/markus-brln/website/frontend:0.1.0 -f ./frontend/app/Dockerfile ./frontend/app
+docker push ghcr.io/markus-brln/website/frontend:0.1.0
 ```
+
+Next steps:
+- Create secret such that you can pull docker images
+- ImageUpdateAutomation
+- Figure out how to refer to helm charts using flux
+- GitHub actions improvements
