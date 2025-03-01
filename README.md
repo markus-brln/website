@@ -68,8 +68,13 @@ eLimited: too many certificates (5) already issued for this exact set of domains
  see https://letsencrypt.org/docs/rate-limits/#new-certificates-per-exact-set-of-hostnames
 ```
 
-## FluxCD setup
+## FluxCD & GitHub registry setup
 
+- I want to make my cluster self-sufficient such that I don't need to touch the laptop that I'm deploying on but can
+  push new code from anywhere
+- Plan:
+  - FluxCD to get config and docker image changes
+  - Use GitHub image and helm chart registry, so I can just push my code
 - Make fine-grained access token for this repo here: https://github.com/settings/personal-access-tokens
 - Commit a folder `flux-manifests` such that flux can use it as its source repo for the bootstrap
 - Follow what I did in this repo already: https://github.com/markus-brln/fluxcd-setup?tab=readme-ov-file#bootstrap-fluxcd
@@ -88,11 +93,6 @@ flux bootstrap github \
 
 ## Harbor setup
 
-- I want to make my cluster self-sufficient such that I don't need to touch the laptop that I'm deploying on but can
-  push new code from anywhere
-- Plan:
-  - FluxCD to get config and docker image changes
-  - Harbor publicly available (with authentication) via ingress, so I can push images
 - Make harbor helm chart, using harbor's chart: https://artifacthub.io/packages/helm/harbor/harbor/1.3.2?modal=values
   - `helm repo add harbor https://helm.goharbor.io`
   - Copy and adapt values
@@ -100,7 +100,7 @@ flux bootstrap github \
   - `helm template harbor kubernetes/harbor`
   - `./iharbor` / `./uharbor` scripts
 
-## GitHub image registry setup
+## GitHub registry setup
 
 - Following: https://medium.com/devopsturkiye/pushing-docker-images-to-githubs-registry-manual-and-automated-methods-19cce3544eb1
 
