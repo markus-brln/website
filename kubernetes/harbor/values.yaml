@@ -6,9 +6,10 @@ harbor:
       secretName: "harbor-tls"
     ingress:
       hosts:
-        core: core.harbor.domain
-        notary: notary.harbor.domain
+        core: harbor.bauerlein.dev
+#        notary: notary.harbor.domain
       controller: nginx
+      className: nginx
   #    annotations:
   #      ingress.kubernetes.io/ssl-redirect: "true"
   #      ingress.kubernetes.io/proxy-body-size: "0"
@@ -26,64 +27,50 @@ harbor:
   # The secret key used for encryption. Must be a string of 16 chars.
   secretKey: "not-a-secure-key"
 
-  persistentVolumeClaim:
-      registry:
-        # Use the existing PVC which must be created manually before bound,
-        # and specify the "subPath" if the PVC is shared with other components
-        existingClaim: ""
-        # Specify the "storageClass" used to provision the volume. Or the default
-        # StorageClass will be used(the default).
-        # Set it to "-" to disable dynamic provisioning
-        storageClass: ""
-        subPath: ""
-        accessMode: ReadWriteOnce
-        size: 500Mi
-      chartmuseum:
-        existingClaim: ""
-        storageClass: ""
-        subPath: ""
-        accessMode: ReadWriteOnce
-        size: 100Mi
-      jobservice:
-        existingClaim: ""
-        storageClass: ""
-        subPath: ""
-        accessMode: ReadWriteOnce
-        size: 50Mi
-      # If external database is used, the following settings for database will
-      # be ignored
-      database:
-        existingClaim: ""
-        storageClass: ""
-        subPath: ""
-        accessMode: ReadWriteOnce
-        size: 50Mi
-      # If external Redis is used, the following settings for Redis will
-      # be ignored
-      redis:
-        existingClaim: ""
-        storageClass: ""
-        subPath: ""
-        accessMode: ReadWriteOnce
-        size: 50Mi
+  persistence:
+    persistentVolumeClaim:
+        registry:
+          # Use the existing PVC which must be created manually before bound,
+          # and specify the "subPath" if the PVC is shared with other components
+          existingClaim: ""
+          # Specify the "storageClass" used to provision the volume. Or the default
+          # StorageClass will be used(the default).
+          # Set it to "-" to disable dynamic provisioning
+          storageClass: ""
+          subPath: ""
+          accessMode: ReadWriteOnce
+          size: 2Gi
+        chartmuseum:
+          existingClaim: ""
+          storageClass: ""
+          subPath: ""
+          accessMode: ReadWriteOnce
+          size: 100Mi
+        jobservice:
+          existingClaim: ""
+          storageClass: ""
+          subPath: ""
+          accessMode: ReadWriteOnce
+          size: 500Mi
+        # If external database is used, the following settings for database will
+        # be ignored
+        database:
+          existingClaim: ""
+          storageClass: ""
+          subPath: ""
+          accessMode: ReadWriteOnce
+          size: 500Mi
+        # If external Redis is used, the following settings for Redis will
+        # be ignored
+        redis:
+          existingClaim: ""
+          storageClass: ""
+          subPath: ""
+          accessMode: ReadWriteOnce
+          size: 500Mi
 
-
-
-  # If expose the service via "ingress", the Nginx will not be used
-  nginx:
-    image:
-      repository: goharbor/nginx-photon
-      tag: v1.10.2
-    replicas: 1
-    # resources:
-    #  requests:
-    #    memory: 256Mi
-    #    cpu: 100m
-    nodeSelector: {}
-    tolerations: []
-    affinity: {}
-    ## Additional deployment annotations
-    podAnnotations: {}
+  metrics:
+    enabled: true
 
   portal:
     image:
@@ -235,3 +222,6 @@ harbor:
       nodeSelector: {}
       tolerations: []
       affinity: {}
+
+  trivy:
+    enabled: false

@@ -3,4 +3,7 @@ helm repo add harbor https://helm.goharbor.io
 
 helm dependency build ./kubernetes/harbor
 
-helm install harbor -n harbor kubernetes/harbor --create-namespace
+helm upgrade --install harbor ./kubernetes/harbor \
+  --namespace harbor \
+  --create-namespace \
+  --values ./kubernetes/harbor/values.yaml

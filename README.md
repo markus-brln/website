@@ -99,3 +99,12 @@ flux bootstrap github \
   - `helm dependency build kubernetes/harbor`
   - `helm template harbor kubernetes/harbor`
   - `./iharbor` / `./uharbor` scripts
+
+## GitHub image registry setup
+
+- Following: https://medium.com/devopsturkiye/pushing-docker-images-to-githubs-registry-manual-and-automated-methods-19cce3544eb1
+
+```bash
+docker login --username markus-brln --password-stdin  ghcr.io
+
+```
