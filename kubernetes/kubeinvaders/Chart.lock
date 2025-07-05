@@ -1,6 +1,0 @@
-dependencies:
-- name: kubeinvaders
-  repository: https://lucky-sideburn.github.io/helm-charts/
-  version: 1.9.7
-digest: sha256:ed769620ce0a52e0537288132db4b6a3ce85aca31ffc2ef7826f8f31855c7cdd
-generated: "2025-01-14T11:05:43.682976436+01:00"
