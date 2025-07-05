@@ -18,8 +18,7 @@ network and is reachable when my PC runs the cluster.
 ## Local pre-requisites
 
 - `helm`
-- `microk8s` with `dns`, `ingress` and `metallb` addons enabled
-  - Set `metallb` load balancer IP ranges:  192.168.2.1-192.168.2.10
+- `microk8s` with `dns`, `ingress` and `registry` addons enabled (optionally `metrics-server`)
 
 ## Router configuration
 
@@ -35,7 +34,8 @@ cert-manager to get a certificate from Let's Encrypt. That means, in the NAT con
     - password: See back of the router
 - Go to `Network` -> `NAT` -> `Port Mapping` -> `Add Rule`
     - Set IP to `192.168.2.X` -> depending on which IP your machine got
-    - Public and Private port: 443, Protocol: TCP
+    - Public and Private port: 443 & 80, Protocol: TCP (Port 80 is needed for the ACME challenge by Let's Encrypt)
+    - Works a bit different on fritz box router in the UI
 
 ## Install cert-manager
 
