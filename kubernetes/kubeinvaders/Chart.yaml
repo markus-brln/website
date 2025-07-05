@@ -1,9 +1,0 @@
-apiVersion: v2
-name: kubeinvaders
-description: A Helm chart to deploy kubeinvaders
-type: application
-version: 0.1.0
-dependencies:
-  - name: kubeinvaders  # See https://github.com/lucky-sideburn/KubeInvaders
-    version: 1.9.7
-    repository: https://lucky-sideburn.github.io/helm-charts/
