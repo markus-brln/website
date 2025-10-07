@@ -41,10 +41,10 @@ ollama:
 
     models:
       pull:
-        - deepseek-r1:1.5b
+        - gemma3:270m
 
       run:
-        - deepseek-r1:1.5b
+        - gemma3:270m
 
 
   # Service account
