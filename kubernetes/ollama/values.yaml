@@ -41,10 +41,10 @@ ollama:
 
     models:
       pull:
-        - gemma3:270m
+        - qwen3:0.6b
 
       run:
-        - gemma3:270m
+        - qwen3:0.6b
 
 
   # Service account
