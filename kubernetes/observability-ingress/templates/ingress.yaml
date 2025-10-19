@@ -5,20 +5,18 @@ kind: Ingress
 metadata:
   name: kube-prom-stack-grafana
   annotations:
-    cert-manager.io/issuer: "letsencrypt-prod"
-#    cert-manager.io/issuer: "letsencrypt-staging"
-#    nginx.ingress.kubernetes.io/rewrite-target: "/video.mp4"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - bauerlein.dev
+    - grafana.bauerlein.dev
     secretName: kube-prom-stack-grafana-tls
   rules:
-  - host: bauerlein.dev
+  - host: grafana.bauerlein.dev
     http:
       paths:
-      - path: /grafana
+      - path: /
         pathType: Prefix
         backend:
           service:
