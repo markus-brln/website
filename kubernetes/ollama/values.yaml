@@ -41,10 +41,10 @@ ollama:
 
     models:
       pull:
-        - qwen3:0.6b
+        - llama3.2:1b
 
       run:
-        - qwen3:0.6b
+        - llama3.2:1b
 
 
   # Service account
