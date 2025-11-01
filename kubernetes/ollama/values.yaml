@@ -41,10 +41,10 @@ ollama:
 
     models:
       pull:
-        - llama3.2:1b
+        - deepseek-r1:1.5b
 
       run:
-        - llama3.2:1b
+        - deepseek-r1:1.5b
 
 
   # Service account
