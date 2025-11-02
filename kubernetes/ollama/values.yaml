@@ -41,10 +41,10 @@ ollama:
 
     models:
       pull:
-        - deepseek-r1:1.5b
+        - qwen3:0.6b
 
       run:
-        - deepseek-r1:1.5b
+        - qwen3:0.6b
 
 
   # Service account
