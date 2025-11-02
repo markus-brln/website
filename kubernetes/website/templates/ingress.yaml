@@ -5,7 +5,7 @@ metadata:
   name: super-cool-ingress
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-#    cert-manager.io/issuer: "letsencrypt-staging"
+#    cert-manager.io/cluster-issuer: "letsencrypt-staging"
     nginx.ingress.kubernetes.io/rewrite-target: "/video.mp4"
 spec:
   ingressClassName: nginx
@@ -31,7 +31,7 @@ metadata:
   name: react-frontend-ingress
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-#    cert-manager.io/issuer: "letsencrypt-staging"
+#    cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
   ingressClassName: nginx
   tls:
