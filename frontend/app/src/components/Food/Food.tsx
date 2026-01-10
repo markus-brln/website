@@ -160,10 +160,11 @@ export default function Food() {
         <Flex direction="column" gap="lg" p="md">
             <Text size="lg" fw={700} c="gray.3">Weekly Meal Planner</Text>
 
-            <Stack>
+            <Stack spacing="sm">
                 <Select label="Weeks to plan" value={weeks} onChange={(v) => v && setWeeks(v)} data={['1','2','3','4']} />
 
-                <Group>
+                {/* Responsive 2-day selection */}
+                <SimpleGrid cols={2} spacing="sm" breakpoints={[{ maxWidth: 768, cols: 1 }]}>
                     {DAYS.slice(0, -1).map((day, index) => {
                         const disabled = twoDayStarts.includes(index - 1);
                         return (
@@ -179,7 +180,7 @@ export default function Food() {
                             />
                         );
                     })}
-                </Group>
+                </SimpleGrid>
 
                 <Checkbox checked={rules.noSameNonRepeatableConsecutive} label="Disallow same non-repeatable consecutively" onChange={(e) => setRules({...rules, noSameNonRepeatableConsecutive: e.currentTarget.checked ?? true})} />
                 <Checkbox checked={rules.noSameMealPerWeek} label="Disallow same meal per week" onChange={(e) => setRules({...rules, noSameMealPerWeek: e.currentTarget.checked ?? true})} />
@@ -188,10 +189,15 @@ export default function Food() {
                 <Button onClick={() => setRegenKey(k => k + 1)}>Regenerate plan</Button>
             </Stack>
 
+            {/* Responsive week grid */}
             {plan.map((week, w) => (
                 <Box key={w}>
                     <Text fw={600} c="gray.3" mb="xs">Week {w+1}</Text>
-                    <SimpleGrid cols={7}>
+                    <SimpleGrid cols={7} spacing="xs" breakpoints={[
+                        { maxWidth: 1024, cols: 4 },
+                        { maxWidth: 768, cols: 2 },
+                        { maxWidth: 480, cols: 1 },
+                    ]}>
                         {DAYS.map((day, d) => <MealCard key={day} day={day} meal={week[d]} />)}
                     </SimpleGrid>
                 </Box>
@@ -201,7 +207,9 @@ export default function Food() {
 
             <Box>
                 <Text fw={600} c="gray.3" mb="xs">Grocery List</Text>
-                {groceryList.map(([item,count]) => <Text size="sm" key={item} c="gray.2">{item} {count}x</Text>)}
+                <Stack spacing="xs">
+                    {groceryList.map(([item,count]) => <Text size="sm" key={item} c="gray.2">{item} {count}x</Text>)}
+                </Stack>
             </Box>
         </Flex>
     );
