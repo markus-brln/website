@@ -79,15 +79,15 @@ function generatePlan(
         for (let d = 0; d < DAYS.length; d++) {
             if (week[d]) continue;
 
-            // Determine if this day should start a 2-day meal
             const forceTwoDay = twoDayStarts.includes(d);
 
+            // Filter foods according to rules
             let candidates = foods.filter((food) => {
-                // Only allow 2-day meals to start if today is selected
-                if (food.duration === 2 && !forceTwoDay) return false;
-                if (food.duration === 1 && forceTwoDay) return true; // allow 1-day only if not forcing 2-day
+                // 2-day meal rules
+                if (forceTwoDay && food.duration !== 2) return false;
+                if (!forceTwoDay && food.duration === 2) return false;
 
-                // Consecutive nonRepeatable check
+                // Non-repeatable consecutive check
                 if (rules.noSameNonRepeatableConsecutive && lastNonRepeatable.some(nr => food.nonRepeatable.includes(nr))) return false;
 
                 // Weekly and overall uniqueness
@@ -163,7 +163,6 @@ export default function Food() {
             <Stack spacing="sm">
                 <Select label="Weeks to plan" value={weeks} onChange={(v) => v && setWeeks(v)} data={['1','2','3','4']} />
 
-                {/* Responsive 2-day selection */}
                 <SimpleGrid cols={2} spacing="sm" breakpoints={[{ maxWidth: 768, cols: 1 }]}>
                     {DAYS.slice(0, -1).map((day, index) => {
                         const disabled = twoDayStarts.includes(index - 1);
@@ -189,7 +188,6 @@ export default function Food() {
                 <Button onClick={() => setRegenKey(k => k + 1)}>Regenerate plan</Button>
             </Stack>
 
-            {/* Responsive week grid */}
             {plan.map((week, w) => (
                 <Box key={w}>
                     <Text fw={600} c="gray.3" mb="xs">Week {w+1}</Text>
