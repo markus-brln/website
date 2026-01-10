@@ -46,18 +46,23 @@ const DAYS = [
 ];
 
 const FOODS: Food[] = [
-    { id: 'pizza', name: 'Pizza', duration: 1, nonRepeatable: ['salad'], groceries: ['pizza dough', 'tomato sauce', 'cheese'] },
-    { id: 'tortillas', name: 'Tortillas', duration: 1, nonRepeatable: ['salad'], groceries: ['tortillas', 'chicken', 'lettuce', 'cheese'] },
-    { id: 'burgers', name: 'Burgers', duration: 1, nonRepeatable: ['potatoes'], groceries: ['burger buns', 'ground beef', 'cheese'] },
-    { id: 'tortilla-burgers', name: 'Tortilla Burgers', duration: 1, nonRepeatable: ['salad'], groceries: ['tortillas', 'ground beef', 'cheese'] },
-    { id: 'poke-bowl', name: 'Poke Bowl', duration: 1, nonRepeatable: ['rice'], groceries: ['rice', 'fish', 'avocado', 'soy sauce'] },
+    { id: 'pizza', name: 'Pizza', duration: 1, nonRepeatable: ['bread'], groceries: ['flour', 'baking powder', 'tomato sauce', 'cheese'] },
+    { id: 'fajitas', name: 'Fajitas', duration: 1, nonRepeatable: ['chicken'], groceries: ['tortillas', 'chicken', 'lettuce', 'cheese'] },
+    { id: 'burgers', name: 'Burgers', duration: 1, nonRepeatable: ['potatoes', 'bread', 'burger', 'minced meat'], groceries: ['burger buns', 'minced meat', 'cheese'] },
+    { id: 'tortilla-burgers', name: 'Tortilla Burgers', duration: 1, nonRepeatable: ['burger', 'minced meat'], groceries: ['tortillas', 'minced meat', 'cheese'] },
+    { id: 'poke-bowl-fish', name: 'Poke Bowl Fish', duration: 1, nonRepeatable: ['rice', 'fish'], groceries: ['rice', 'fish', 'avocado', 'soy sauce'] },
+    { id: 'poke-bowl-chicken', name: 'Poke Bowl Chicken', duration: 1, nonRepeatable: ['rice', 'chicken'], groceries: ['rice', 'fish', 'avocado', 'soy sauce'] },
+    { id: 'nachos', name: 'Nachos', duration: 1, nonRepeatable: ['nachos', 'corn'], groceries: ['nachos', 'corn', 'kidney beans', 'salsa'] },
+    { id: 'fish-sticks', name: 'Fish sticks with potatoes', duration: 1, nonRepeatable: ['fish', 'potatoes'], groceries: ['potatoes', 'fish sticks'] },
+    { id: 'omelette-with-potatoes', name: 'Omelette with potatoes', duration: 1, nonRepeatable: ['potatoes', 'egg'], groceries: ['potatoes', 'egg', 'paprika', 'zucchini', 'mushrooms'] },
 
-    { id: 'chicken-potatoes', name: 'Chicken & Potatoes', duration: 2, nonRepeatable: ['salad'], groceries: ['chicken', 'potatoes', 'olive oil'] },
-    { id: 'chicken-rice', name: 'Chicken & Rice', duration: 2, nonRepeatable: ['vegetables'], groceries: ['chicken', 'rice', 'broccoli'] },
-    { id: 'lasagna', name: 'Lasagna', duration: 2, nonRepeatable: ['salad'], groceries: ['pasta sheets', 'tomato sauce', 'cheese', 'minced meat'] },
-    { id: 'souvlaki', name: 'Souvlaki', duration: 2, nonRepeatable: ['salad', 'bread'], groceries: ['pork', 'skewers', 'pita bread', 'tomato'] },
-    { id: 'chicken-curry', name: 'Chicken Curry', duration: 2, nonRepeatable: ['rice'], groceries: ['chicken', 'curry paste', 'coconut milk'] },
-    { id: 'chicken-soup', name: 'Chicken Soup', duration: 2, nonRepeatable: ['bread'], groceries: ['chicken', 'carrot', 'celery', 'noodles'] },
+    { id: 'bolognese', name: 'Bolognese', duration: 2, nonRepeatable: ['pasta', 'minced meat'], groceries: ['minced meat', 'pasta', 'tomato sauce'] },
+    { id: 'chicken-potatoes', name: 'Chicken & Potatoes', duration: 2, nonRepeatable: ['chicken', 'potatoes'], groceries: ['chicken', 'potatoes', 'olive oil'] },
+    { id: 'chicken-rice', name: 'Chicken & Rice', duration: 2, nonRepeatable: ['chicken', 'rice'], groceries: ['chicken', 'rice', 'broccoli'] },
+    { id: 'lasagna', name: 'Lasagna', duration: 2, nonRepeatable: ['pasta', 'minced meat'], groceries: ['pasta sheets', 'tomato sauce', 'cheese', 'minced meat'] },
+    { id: 'souvlaki', name: 'Souvlaki', duration: 2, nonRepeatable: ['chicken', 'bread'], groceries: ['pork', 'skewers', 'pita bread', 'tomato'] },
+    { id: 'chicken-curry', name: 'Chicken Curry', duration: 2, nonRepeatable: ['rice', 'chicken'], groceries: ['chicken', 'curry paste', 'coconut milk'] },
+    { id: 'chicken-soup', name: 'Chicken Soup', duration: 2, nonRepeatable: ['rice', 'chicken'], groceries: ['chicken', 'carrot', 'celery', 'noodles'] },
 ];
 
 /* ───────────── GENERATOR ───────────── */
