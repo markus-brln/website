@@ -9,16 +9,18 @@ import {
     SimpleGrid,
     Stack,
     Text,
+    Divider,
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
 
-/* ───────────────── TYPES ───────────────── */
+/* ───────────── TYPES ───────────── */
 
 type Food = {
     id: string;
     name: string;
     duration: 1 | 2;
     sides: string[];
+    groceries: string[];
 };
 
 type Rules = {
@@ -31,7 +33,7 @@ type PlannedMeal = {
     food: Food;
 };
 
-/* ───────────────── STATIC DATA ───────────────── */
+/* ───────────── STATIC DATA ───────────── */
 
 const DAYS = [
     'Monday',
@@ -49,46 +51,46 @@ const FOODS: Food[] = [
         name: 'Chili con Carne',
         duration: 2,
         sides: ['rice', 'bread'],
+        groceries: ['ground beef', 'beans', 'tomatoes', 'onion'],
     },
     {
         id: 'pasta',
         name: 'Pasta Bolognese',
         duration: 1,
         sides: ['salad'],
+        groceries: ['pasta', 'ground beef', 'tomato sauce'],
     },
     {
         id: 'stirfry',
         name: 'Chicken Stir Fry',
         duration: 1,
         sides: ['rice', 'vegetables'],
+        groceries: ['chicken', 'bell pepper', 'soy sauce', 'rice'],
     },
     {
         id: 'curry',
         name: 'Vegetable Curry',
         duration: 2,
         sides: ['naan', 'rice'],
+        groceries: ['potato', 'carrot', 'curry paste', 'coconut milk'],
     },
     {
-        id: 'curry2',
-        name: 'Vegetable Curry2',
-        duration: 2,
-        sides: ['naan2', 'rice2'],
+        id: 'tacos',
+        name: 'Tacos',
+        duration: 1,
+        sides: ['corn'],
+        groceries: ['tortillas', 'ground beef', 'lettuce', 'cheese'],
     },
     {
-        id: 'curry3',
-        name: 'Vegetable Curry3',
-        duration: 2,
-        sides: ['naan', 'rice'],
+        id: 'salmon',
+        name: 'Baked Salmon',
+        duration: 1,
+        sides: ['potatoes'],
+        groceries: ['salmon', 'potatoes', 'lemon'],
     },
-    {
-        id: 'curry4',
-        name: 'Vegetable Curry4',
-        duration: 2,
-        sides: ['naan', 'rice'],
-    }
 ];
 
-/* ───────────────── GENERATOR LOGIC ───────────────── */
+/* ───────────── GENERATOR ───────────── */
 
 function generatePlan(
     foods: Food[],
@@ -121,17 +123,16 @@ function generatePlan(
             if (candidates.length === 0) candidates = foods;
 
             const food = candidates[Math.floor(Math.random() * candidates.length)];
-
             week[d] = { food };
+
             weeklyMeals.add(food.id);
             usedMeals.add(food.id);
             lastSides = food.sides;
 
-            if (food.duration === 2 || twoDayStarts.includes(d)) {
-                if (d + 1 < DAYS.length) {
-                    week[d + 1] = { food };
-                    d++;
-                }
+            const forceTwoDay = twoDayStarts.includes(d);
+            if ((food.duration === 2 || forceTwoDay) && d + 1 < DAYS.length) {
+                week[d + 1] = { food };
+                d++;
             }
         }
 
@@ -141,12 +142,14 @@ function generatePlan(
     return plan;
 }
 
-/* ───────────────── UI SUB-COMPONENTS ───────────────── */
+/* ───────────── UI ───────────── */
 
 function MealCard({ day, meal }: { day: string; meal?: PlannedMeal }) {
     return (
-        <Card shadow="sm" withBorder>
-            <Text fw={600}>{day}</Text>
+        <Card withBorder>
+            <Text fw={600} c="gray.3">
+                {day}
+            </Text>
             {meal ? (
                 <>
                     <Text size="sm">{meal.food.name}</Text>
@@ -163,11 +166,13 @@ function MealCard({ day, meal }: { day: string; meal?: PlannedMeal }) {
     );
 }
 
-/* ───────────────── MAIN COMPONENT ───────────────── */
+/* ───────────── MAIN ───────────── */
 
 export default function Food() {
     const [weeks, setWeeks] = useState('1');
     const [twoDayStarts, setTwoDayStarts] = useState<number[]>([]);
+    const [regenKey, setRegenKey] = useState(0);
+
     const [rules, setRules] = useState<Rules>({
         noSameSidesConsecutive: true,
         noSameMealPerWeek: true,
@@ -182,73 +187,107 @@ export default function Food() {
                 rules,
                 twoDayStarts
             ),
-        [weeks, rules, twoDayStarts]
+        [weeks, rules, twoDayStarts, regenKey]
     );
+
+    /* ───────────── GROCERY LIST ───────────── */
+
+    const groceryList = useMemo(() => {
+        const map = new Map<string, number>();
+
+        plan.flat().forEach((meal) => {
+            meal?.food.groceries.forEach((item) => {
+                map.set(item, (map.get(item) ?? 0) + 1);
+            });
+        });
+
+        return Array.from(map.entries());
+    }, [plan]);
 
     return (
         <Flex direction="column" gap="lg" p="md">
-            <Text size="lg" fw={700}>
+            <Text size="lg" fw={700} c="gray.3">
                 Weekly Meal Planner
             </Text>
 
-            {/* Controls */}
-            <Stack spacing="sm">
+            <Stack>
                 <Select
-                    label="Plan weeks ahead"
+                    label="Weeks to plan"
                     value={weeks}
                     onChange={(v) => v && setWeeks(v)}
                     data={['1', '2', '3', '4']}
                 />
 
                 <Group>
-                    {DAYS.slice(0, -1).map((day, index) => (
-                        <Checkbox
-                            key={day}
-                            label={`${day} (2 days)`}
-                            checked={twoDayStarts.includes(index)}
-                            onChange={(e) =>
-                                setTwoDayStarts((prev) =>
-                                    e.currentTarget.checked
-                                        ? [...prev, index]
-                                        : prev.filter((i) => i !== index)
-                                )
-                            }
-                        />
-                    ))}
+                    {DAYS.slice(0, -1).map((day, index) => {
+                        const disabled = twoDayStarts.includes(index - 1);
+                        return (
+                            <Checkbox
+                                key={day}
+                                label={`${day} (2 days)`}
+                                disabled={disabled}
+                                checked={twoDayStarts.includes(index)}
+                                onChange={(event) => {
+                                    const checked =
+                                        event.currentTarget?.checked ?? false;
+
+                                    setTwoDayStarts((prev) =>
+                                        checked
+                                            ? [...prev, index]
+                                            : prev.filter((i) => i !== index)
+                                    );
+                                }}
+                            />
+                        );
+                    })}
                 </Group>
 
                 <Checkbox
                     checked={rules.noSameSidesConsecutive}
+                    label="Disallow same sides consecutively"
                     onChange={(e) =>
-                        setRules({ ...rules, noSameSidesConsecutive: e.currentTarget.checked })
+                        setRules({
+                            ...rules,
+                            noSameSidesConsecutive:
+                                e.currentTarget?.checked ?? true,
+                        })
                     }
-                    label="Disallow same sides on consecutive days"
                 />
 
                 <Checkbox
                     checked={rules.noSameMealPerWeek}
+                    label="Disallow same meal per week"
                     onChange={(e) =>
-                        setRules({ ...rules, noSameMealPerWeek: e.currentTarget.checked })
+                        setRules({
+                            ...rules,
+                            noSameMealPerWeek:
+                                e.currentTarget?.checked ?? true,
+                        })
                     }
-                    label="Disallow same meal within a week"
                 />
 
                 <Checkbox
                     checked={rules.noSameMealOverall}
+                    label="Disallow same meal overall"
                     onChange={(e) =>
-                        setRules({ ...rules, noSameMealOverall: e.currentTarget.checked })
+                        setRules({
+                            ...rules,
+                            noSameMealOverall:
+                                e.currentTarget?.checked ?? true,
+                        })
                     }
-                    label="Disallow same meal in whole planning period"
                 />
+
+                <Button onClick={() => setRegenKey((k) => k + 1)}>
+                    Regenerate plan
+                </Button>
             </Stack>
 
-            {/* Calendar */}
             {plan.map((week, w) => (
                 <Box key={w}>
-                    <Text fw={600} mb="xs">
+                    <Text fw={600} c="gray.3" mb="xs">
                         Week {w + 1}
                     </Text>
-
                     <SimpleGrid cols={7}>
                         {DAYS.map((day, d) => (
                             <MealCard key={day} day={day} meal={week[d]} />
@@ -256,6 +295,19 @@ export default function Food() {
                     </SimpleGrid>
                 </Box>
             ))}
+
+            <Divider my="md" />
+
+            <Box>
+                <Text fw={600} c="gray.3" mb="xs">
+                    Grocery List
+                </Text>
+                {groceryList.map(([item, count]) => (
+                    <Text size="sm" key={item} c="gray.2">
+                        {item} {count}x
+                    </Text>
+                ))}
+            </Box>
         </Flex>
     );
 }
