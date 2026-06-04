@@ -57,9 +57,10 @@ spec:
         kubernetes.io/app: match-zeit
     spec:
       containers:
-      - name: react-frontend
+      - name: streamlit
         image: localhost:32000/match-zeit:1.0.0
         imagePullPolicy: Always
-#        command: ["npm", "run", "dev", "--", "--host"]  use dockerfile's entrypoint
+        # Override the entrypoint to inject the base URL path argument
+        command: ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"] #, "--server.baseUrlPath=MatchZeit/"]
         ports:
         - containerPort: 8501

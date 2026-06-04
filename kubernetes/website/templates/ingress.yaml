@@ -42,7 +42,7 @@ spec:
   - host: bauerlein.dev
     http:
       paths:
-      - path: /
+      - path: /home
         pathType: Prefix
         backend:
           service:
@@ -67,7 +67,7 @@ spec:
   - host: bauerlein.dev
     http:
       paths:
-      - path: /MatchZeit
+      - path: /
         pathType: Prefix
         backend:
           service:
