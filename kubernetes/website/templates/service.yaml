@@ -22,3 +22,15 @@ spec:
     protocol: TCP
   selector:
     kubernetes.io/app: react-frontend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: match-zeit-service
+spec:
+  ports:
+  - port: 8501
+    targetPort: 8501
+    protocol: TCP
+  selector:
+    kubernetes.io/app: match-zeit

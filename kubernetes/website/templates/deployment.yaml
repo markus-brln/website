@@ -41,3 +41,25 @@ spec:
         command: ["npm", "run", "dev", "--", "--host"]
         ports:
         - containerPort: 5173
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: match-zeit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      kubernetes.io/app: match-zeit
+  template:
+    metadata:
+      labels:
+        kubernetes.io/app: match-zeit
+    spec:
+      containers:
+      - name: react-frontend
+        image: localhost:32000/match-zeit:1.0.0
+        imagePullPolicy: Always
+#        command: ["npm", "run", "dev", "--", "--host"]  use dockerfile's entrypoint
+        ports:
+        - containerPort: 8501
