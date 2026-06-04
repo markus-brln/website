@@ -1,4 +1,17 @@
+# Frontend
 
+## Run locally
+
+```bash
+cd frontend/app
+
+npm install .
+npm run dev
+```
+
+Access via http://localhost:5173/
+
+## Build & push to microk8s registry
 
 ```bash
 https://microk8s.io/docs/registry-images

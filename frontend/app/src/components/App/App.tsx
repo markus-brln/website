@@ -1,5 +1,7 @@
+import { Routes, Route } from 'react-router-dom';
 import { AppShell, Navbar, Header, Button, MantineProvider, Group, Image, Text } from '@mantine/core';
 import HomePage from '../HomePage/HomePage';
+import Food from '../Food/Food';
 
 export default function App() {
   return (
@@ -25,7 +27,10 @@ export default function App() {
           main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
         })}
       >
-        <HomePage />
+          <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/food" element={<Food />} />
+          </Routes>
       </AppShell>
     </MantineProvider>
   );

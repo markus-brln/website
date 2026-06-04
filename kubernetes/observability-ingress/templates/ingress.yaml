@@ -1,25 +1,25 @@
+# Ingress for grafana if you installed `microk8s enable observability`
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ollama-ingress
+  name: kube-prom-stack-grafana
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-#    cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - bauerlein.dev
-    secretName: ollama-tls
+    - grafana.bauerlein.dev
+    secretName: kube-prom-stack-grafana-tls
   rules:
-  - host: bauerlein.dev
+  - host: grafana.bauerlein.dev
     http:
       paths:
-      - path: /chat
+      - path: /
         pathType: Prefix
         backend:
           service:
-            name: ollama-service
+            name: kube-prom-stack-grafana
             port:
-              number: 80
+              number: 3000
