@@ -62,7 +62,7 @@ spec:
   tls:
   - hosts:
     - match-zeit.de
-    secretName: super-cool-tls
+    secretName: match-zeit-tls
   rules:
   - host: match-zeit.de
     http:
