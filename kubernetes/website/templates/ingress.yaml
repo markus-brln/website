@@ -42,7 +42,7 @@ spec:
   - host: bauerlein.dev
     http:
       paths:
-      - path: /home
+      - path: /
         pathType: Prefix
         backend:
           service:
@@ -61,10 +61,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - bauerlein.dev
+    - match-zeit.de
     secretName: super-cool-tls
   rules:
-  - host: bauerlein.dev
+  - host: match-zeit.de
     http:
       paths:
       - path: /
