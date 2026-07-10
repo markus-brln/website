@@ -48,7 +48,6 @@ const DAYS = [
 ];
 
 const DEFAULT_FOODS: Food[] = [
-[
     { "id": "pizza", "name": "Pizza", "duration": 1, "nonRepeatable": ["bread"], "groceries": ["flour", "baking powder", "tomato sauce", "cheese", "tomatoes", "mushrooms", "courgette", "bacon", "rucola", "mozzarella"] },
     { "id": "fajitas", "name": "Fajitas", "duration": 1, "nonRepeatable": ["chicken"], "groceries": ["tortillas", "chicken", "cheese", "paprika", "mushrooms", "onion", "beans", "corn"] },
     { "id": "burgers", "name": "Burgers", "duration": 1, "nonRepeatable": ["potatoes", "bread", "burger", "minced meat"], "groceries": ["burger buns", "minced meat", "cheese", "onion", "lettuce", "tomatoes", "pickles", "potatoes"] },
